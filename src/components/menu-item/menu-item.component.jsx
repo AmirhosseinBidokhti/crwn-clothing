@@ -1,12 +1,15 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import './menu-item.styles.scss';
 
 // at least at the time we created this component we didnt need state or lifecycle methods.
-const MenuItem = ({ title, imageUrl, size }) => (
+// history and match comes from the HomePage component (withRouter ability)
+const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => (
     <div 
     // Dynamically adding class. if there was any size prop passed, it would be rendered otherwise np!
     className={`${size} menu-item`}
+    onClick={() => history.push(`${match.url}${linkUrl}`)}
     >
 
     <div 
@@ -26,5 +29,5 @@ const MenuItem = ({ title, imageUrl, size }) => (
 </div>
 );
 
-export default MenuItem;
-
+export default withRouter(MenuItem);
+// now this component has access to the properties provided by react-router. like loaction, match, history
