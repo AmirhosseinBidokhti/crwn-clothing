@@ -3,7 +3,7 @@ import React from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 import './sign-in.styles.scss';
 
@@ -19,9 +19,24 @@ class SignIn extends React.Component {
         }
     }
 
-    handleSubmit = e => {
+    handleSubmit = async e => {
         e.preventDefault();// simply prevent the default submit action from firing
-        this.setState({email: '', password: ''})
+
+        const { email, password } = this.state; // desctructure off of our state
+
+        try {
+
+            await auth.signInWithEmailAndPassword(email, password); 
+
+            // if that successed then clear fields
+            this.setState({email: '', password: ''})
+
+
+            
+        } catch(error){
+            console.log(`error related to sign in with email and password: ${error}`);
+        }
+
     }
 
     handleChange = e => {
